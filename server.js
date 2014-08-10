@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -32,7 +34,7 @@ io.sockets.on('connection', function(socket) {
         console.log('player is already in a game');
         socket.emit('game denied', 'player is already in a game');
       } else {
-        gameId = Math.random().toString(36).substring(4);
+        var gameId = Math.random().toString(36).substring(4);
         
         games[gameId] = {
           playerOne: socket.id,
@@ -107,9 +109,9 @@ io.sockets.on('connection', function(socket) {
 });
 
 function checkForWinner(gameData) {
-  topRow = gameData.topRow;
-  middleRow = gameData.middleRow;
-  bottomRow = gameData.bottomRow;
+  var topRow = gameData.topRow;
+  var middleRow = gameData.middleRow;
+  var bottomRow = gameData.bottomRow;
 
   console.log('checking.... ' + util.inspect(gameData));
 
