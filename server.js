@@ -6,6 +6,7 @@ var io = require('socket.io')(http);
 var util = require('util'); // this is useful for console.logging deep objects
 
 var players = {};
+var nicks = [];
 var games = {};
 
 io.sockets.on('connection', function(socket) {
@@ -22,8 +23,15 @@ io.sockets.on('connection', function(socket) {
 
   // set the player's nick
   socket.on('nick', function(nick) {
-    players[socket.id].nick = nick;
-    console.log(players);
+    if (nicks.indexOf(nick) === -1) {
+      players[socket.id].nick = nick;
+      nicks.push(nick);
+      console.log(players);
+
+      socket.emit('ack nick', 'good');
+    } else {
+      socket.emit('ack nick', 'bad');
+    }
   });
 
   socket.on('new game', function(player) {
@@ -104,6 +112,7 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('disconnect', function() {
+    delete nicks[nicks.indexOf(players[socket.id].nick)];
     delete players[socket.id];
   });
 });
