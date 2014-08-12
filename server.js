@@ -14,6 +14,7 @@ io.sockets.on('connection', function(socket) {
 
   // ack the connection, send the player ID back
   socket.emit('connect ack', socket.id);
+  socket.emit('player list', players);
 
   // create the player
   players[socket.id] = {
@@ -29,6 +30,8 @@ io.sockets.on('connection', function(socket) {
       console.log(players);
 
       socket.emit('ack nick', 'good');
+      socket.broadcast.emit('player list', players);
+      socket.emit('player list', players);
     } else {
       socket.emit('ack nick', 'bad');
     }
@@ -78,6 +81,9 @@ io.sockets.on('connection', function(socket) {
           ourPiece: players[player].piece,
           ourTurn: false
         });
+
+        socket.emit('player list', players);
+        socket.broadcast.emit('player list', players);
       }
 
       console.log('games: ' + util.inspect(games));
@@ -108,12 +114,15 @@ io.sockets.on('connection', function(socket) {
       socket.to(data.to).emit('game over', socket.id);
       players[socket.id].inGame = false;
       players[data.to].inGame = false;
+      socket.broadcast.emit('player list', players);
+      socket.emit('player list', players);
     }
   });
 
   socket.on('disconnect', function() {
     delete nicks[nicks.indexOf(players[socket.id].nick)];
     delete players[socket.id];
+    socket.broadcast.emit('player list', players);
   });
 });
 
