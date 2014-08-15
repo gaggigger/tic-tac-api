@@ -120,8 +120,25 @@ io.sockets.on('connection', function(socket) {
   });
 
   socket.on('disconnect', function() {
-    delete nicks[nicks.indexOf(players[socket.id].nick)];
+    var player = players[socket.id];
+    var game = games[player.game];
+
+    // remove their nick so it becomes available for others
+    delete nicks[nicks.indexOf(player.nick)];
+
+    // if the player was in a game when they disconnected,
+    // let the opponent know that they won by forfeiture
+    // then mark the opponent as available
+    if (player.inGame) {
+      var opponent = game.playerOne == socket.id ? game.playerTwo : game.playerOne;
+      socket.to(opponent).emit('game over', opponent);
+      players[opponent].inGame = false;
+    }
+
+    // remove the player
     delete players[socket.id];
+
+    // broadcast the updated player list to everyone else
     socket.broadcast.emit('player list', players);
   });
 });
