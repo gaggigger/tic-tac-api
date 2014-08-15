@@ -1,19 +1,36 @@
 {
-  "name": "tic-tac-toe",
-  "version": "0.0.0",
+  "name": "tic-tac-api",
+  "version": "0.0.1",
   "description": "backend for tic-tac-toe app",
   "main": "server.js",
   "dependencies": {
     "express": "~4.8.2",
-    "http": "~0.0.0",
+    "gulp": "~3.8.7",
+    "gulp-nodemon": "~1.0.4",
     "socket.io": "~1.0.6",
-    "util": "~0.10.3"
+    "http": "~0.0.0",
+    "jshint-stylish": "~0.4.0",
+    "util": "~0.10.3",
+    "gulp-jshint": "~1.8.4"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "vito",
-  "license": "wtfpl"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vitosamson/tic-tac-api"
+  },
+  "keywords": [
+    "tic-tac-toe",
+    "node",
+    "websockets"
+  ],
+  "author": "Vito",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/vitosamson/tic-tac-api/issues"
+  },
+  "homepage": "https://github.com/vitosamson/tic-tac-api"
 }
