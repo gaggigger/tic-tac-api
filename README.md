@@ -19,3 +19,13 @@ The following socket events are utilized:
     - game over (who won)
     - game denied (probably can be removed, along with allowing the user to manually enter a player ID)
     - player list (player IDs, nicks and availability)
+
+## Running it
+
+Install node.js and npm if you don't have them
+
+Install the node modules: ```npm install```
+
+Run gulp to start the server: ```gulp```
+
+Gulp will monitor server.js for changes, lint it through jshint and restart the server.
